@@ -2,14 +2,14 @@ from helpers import check_mt, check_played, choose_player, choose_act_batch, cho
 import time
 
 
-def check_butch_result_mizer(users_info: dict, gambler: str):
+def check_butch_result_mizer(users_info: dict, gambler: str) -> dict:
     """мизер"""
     bid = check_played(10)
     users_info[gambler][0][bid[0]] += bid[1]
     return users_info
 
 
-def check_butch_result_pas(users_info: dict, players: list, actual_pas: int):
+def check_butch_result_pas(users_info: dict, players: list, actual_pas: int) -> (dict, int):
     """распасы"""
     bid_value = actual_pas*2
     for player in players:
@@ -18,7 +18,7 @@ def check_butch_result_pas(users_info: dict, players: list, actual_pas: int):
     return users_info, actual_pas
 
 
-def check_butch_result(users_info: dict, gambler: str, players: list, amount: int):
+def check_butch_result(users_info: dict, gambler: str, players: list, amount: int) -> dict:
     """6, 7, 8, 9, 10"""
     bid_value = {6: 2, 7: 4, 8: 6, 9: 8, 10: 10}[amount]
     bid = check_played(bid_value)
@@ -35,7 +35,7 @@ def check_butch_result(users_info: dict, gambler: str, players: list, amount: in
     return users_info
 
 
-def batch(users_info: dict, players: list, actual_pas: int):
+def batch(users_info: dict, players: list, actual_pas: int) -> (dict, list, int):
     """"""
 
     print(f"Раздачу ведёт {players[0]}\n")
@@ -57,7 +57,11 @@ def batch(users_info: dict, players: list, actual_pas: int):
 
         case 15:
             print_result(users_info)
-            return batch(users_info, players, actual_pas)
+            return batch(
+                users_info,
+                players,
+                actual_pas,
+            )
 
         case _:
             gambler = choose_player(players if len(players) == 3 else players[1:])
